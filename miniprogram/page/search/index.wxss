@@ -1,0 +1,19 @@
+/* page/search/index.wxss */
+
+
+
+.picker{
+  padding: 10px 13px;
+  background-color: #FFFFFF;
+}
+.center-text {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weui-half-screen-dialog__bd  {
+  -webkit-overflow-scrolling: touch;
+  
+}

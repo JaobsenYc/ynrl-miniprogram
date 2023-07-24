@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "input-picker": "/components/input-picker/input-picker",
+    "mp-half-screen-dialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "mp-icon": "weui-miniprogram/icon/icon"
+  },
+
+  "navigationBarTitleText": "picker"
+}

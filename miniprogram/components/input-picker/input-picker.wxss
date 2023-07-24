@@ -1,0 +1,98 @@
+.section{
+  padding: 20rpx 20rpx 0rpx 0rpx;
+  display: flex;
+  justify-content: space-around;
+}
+.btns{
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 40rpx;
+  background: #fff;
+}
+.divider {
+  border-top: 1px solid #E5E5E5; /* 这里添加分割线 */
+  margin: 0 -40rpx; /* 这里减去左右的padding，让分割线宽度和屏幕一致 */
+}
+.cancel, .submit {
+  font-size: 28rpx;
+  color: #0BB20C; /* 改变字体颜色 */
+}
+
+.cancel {
+  padding-left: 20rpx;
+  font-size: 28rpx;
+}
+
+.submit {
+  padding-right: 20rpx;
+  font-size: 28rpx;
+}
+.picker-item{
+  width: 450rpx;
+  margin-right: 10rpx;
+}
+.picker{
+ 
+  height: 80rpx;
+  line-height: 60rpx;
+  background:#e9eaec;
+  border-radius: 40rpx;
+
+  padding-left: 30rpx;
+  position: relative;
+  display: flex;
+  align-items: center; /* vertically align text in the middle */
+  justify-content: space-between; /* create space between the text and icon */
+  padding-right: 20rpx; /* add padding to the right */
+}
+.picker::after {
+  content: '\e61e';
+  font-family: 'iconfont';
+  position: absolute;
+  right: 17rpx;
+  top: 5rpx;
+  font-size: 12rpx;
+  z-index: 1;
+  color: #8C8C8C;
+}
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 997;
+}
+
+.picker-wrap-con{
+  height: 60vh;
+  z-index: 999;
+  position:fixed;
+  /* top:0; */
+  bottom:0;
+  right:0;
+  left:0;
+  background-color:#fff;
+  padding: 20rpx;
+  /* display:flex;
+  align-items:flex-end;
+  align-content:center; */
+}
+.input{
+  border: 1px solid #eee;
+  margin: 20rpx 40rpx;
+  border-radius: 40rpx;
+  padding-left: 20rpx;
+  font-size: 35rpx;
+}
+.input input{
+  height: 60rpx;
+  line-height: 80rpx;
+}
+.center-text {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,30 @@
+<!-- <view class="wrap"> -->
+  <view class="section">
+  <!-- 中转库 -->
+  <view class="picker-item">
+    <view class="picker center-text" bindtap="showPicker" >
+      {{ selected.text || '请选择小区' }}
+    </view>
+  </view>
+</view>
+<view wx:if="{{showMask}}" class="mask"></view>
+<view wx:if="{{ show }}" class="picker-wrap">
+  <view class="picker-wrap-con">
+    <view class="btns">
+      <view class="cancel" bindtap="cancel">取消</view>
+      <view class="submit" bindtap="submit">确定</view>
+    </view>
+    
+    <view class="input">
+      <input auto-focus placeholder="手动输入" bindinput="bindKeyInput" />
+    </view>
+    <view class="divider"></view> 
+    <picker-view indicator-style="height: 50px;" immediate-change="" style="width: 100%; height: 300px; background:#fff" value="{{ value }}" bindchange="bindChange">
+      <picker-view-column>
+        <view wx:for="{{ filteredCasArray }}" wx:key="index" style="line-height: 50px; text-align: center;">
+          {{ item.text }}
+        </view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+</view>
