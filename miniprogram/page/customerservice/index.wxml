@@ -1,6 +1,9 @@
 <!--page/customerservice/index.wxml-->
 
-<view class="weui-cell__bd">
-            <button type="warn" class="weui-btn" open-type="contact">信息有误联系客服</button>
-            
-          </view>
+<view class="container">
+  <view class="center">
+    <view class="weui-cell__bd">
+      <button type="warn" class="weui-btn enlarge-btn" open-type="contact">信息有误联系客服</button>
+    </view>
+  </view>
+</view>

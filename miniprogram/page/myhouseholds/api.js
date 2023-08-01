@@ -67,10 +67,17 @@ function saveHouseholds(data) {
     data
   });
 }
-
+function deleteHouseholds(data) {
+    return callContainerApi({
+      path: '/api/users/households',
+      method: 'DELETE',
+      data
+    });
+  }
 
 module.exports = {
   getHouseholds,
   getUserDetails,
-  saveHouseholds
+  saveHouseholds,
+  deleteHouseholds
 };

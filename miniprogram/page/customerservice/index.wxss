@@ -1,1 +1,18 @@
 /* page/customerservice/index.wxss */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 设置容器高度为视窗高度，使按钮垂直居中 */
+  }
+  
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .enlarge-btn {
+    font-size: 24px; /* 设置按钮字体大小，调整按钮大小 */
+    padding: 20px 40px; /* 调整按钮内边距，使按钮变大 */
+  }

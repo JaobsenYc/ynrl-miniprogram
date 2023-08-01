@@ -6,14 +6,13 @@ Page({
     households: [],
     address: [],
     slideButtons: [{
-      text: '普通',
-    }, {
-      text: '普通',
+      text: '缴费',
       extClass: 'test',
+    }, {
+      text: '修改',
     }, {
       type: 'warn',
-      text: '警示',
-      extClass: 'test',
+      text: '删除',
     }],
     radioItems: [{
         name: '我家',
@@ -37,6 +36,7 @@ Page({
     householdId:'',
     show_customTag: false,
     dialogShow: false,
+    edit_dialogShow: false,
     buttons: [{
       text: '取消'
     }, {
@@ -77,7 +77,7 @@ Page({
       addresses[householdId] = res_data.address;
       console.log(res_data.address)
       this.setData({
-        addresses
+        address:addresses
       });
     } catch (err) {
       console.error(err);
@@ -85,14 +85,72 @@ Page({
   },
 
   slideButtonTap(e) {
-    console.log('slide button tap', e.detail)
+    const index = e.detail.index; // 获取点击的滑动按钮的索引
+    const householdId = e.currentTarget.dataset.householdid; // 获取点击的滑动按钮所属的 householdId
+    const buttonInfo = this.data.slideButtons[index]; // 获取点击的滑动按钮的信息
+    console.log('Slide button tap - Index:', index);
+    console.log('Slide button tap - Household ID:', householdId);
+    console.log('Slide button tap - Button Info:', buttonInfo);
+    
+    if (buttonInfo.text === '缴费') {
+        this.copyToClipboard(householdId)
+        wx.navigateTo({
+            url: '../search/image/index'  // 注意，路径前面要加上 '../' 来表示是相对路径
+        })
+      } else if (buttonInfo.text === '修改') {
+        // 处理修改按钮的逻辑
+        this.setData({
+            householdId: householdId,
+            edit_dialogShow: true
+          });
+      } else if (buttonInfo.text === '删除') {
+        // 处理删除按钮的逻辑
+        // ...
+        api.deleteHouseholds({
+            householdId: householdId,
+          });
+        wx.showToast({
+        title: '户号已删除',
+        icon: 'success',
+        duration: 1500,
+        });
+        this.onLoad()
+      }
+    
+        
   },
   onAddTap(e) {
     this.setData({
       dialogShow: true
     });
   },
+  copyToClipboard(userId) {
 
+    const showFailToast = function () {
+      wx.showToast({
+        title: '复制失败',
+        icon: 'error',
+        duration: 1500,
+      });
+    };
+
+    wx.setClipboardData({
+      data: userId,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            wx.showToast({
+              title: '户号已复制',
+              icon: 'success',
+              duration: 1500,
+            });
+          },
+          fail: showFailToast,
+        });
+      },
+      fail: showFailToast,
+    });
+  },
 
   taginputChange(e) {
     this.setData({
@@ -111,10 +169,9 @@ Page({
     if (e.detail.index == 1) {
       try {
         // 获取用户详情
-        const userDetails = await api.getUserDetails(this.data.userId); // 在这里设置真正的userId
+        const userDetails = await api.getUserDetails(this.data.householdId); // 在这里设置真正的userId
         // 检查户号是否存在
-        const householdExists = userDetails.some(detail => detail.householdId === this.data.householdId);
-        if (!householdExists) {
+        if (!userDetails) {
           // 户号不存在，显示错误提示并退出
           wx.showToast({
             title: '户号不存在',
@@ -134,6 +191,7 @@ Page({
           icon: 'success',
           duration: 1500,
         });
+        this.onLoad()
       } catch (err) {
         wx.showToast({
           title: '操作失败',
@@ -145,6 +203,50 @@ Page({
   
     this.setData({
       dialogShow: false,
+    });
+  },
+
+  async tapEditButton(e) {
+      console.log("点击了",e.detail)
+    if (e.detail.index == 1) {
+      try {
+        // 获取用户详情
+        const userDetails = await api.getUserDetails(this.data.householdId); // 在这里设置真正的userId
+        // 检查户号是否存在
+        console.log(userDetails)
+        if (!userDetails) {
+          // 户号不存在，显示错误提示并退出
+          wx.showToast({
+            title: '户号不存在',
+            icon: 'error',
+            duration: 1500,
+          });
+          return;
+        }
+  
+        // 户号存在，进行保存操作
+        await api.saveHouseholds({
+          householdId: this.data.householdId,
+          tag: this.data.householdTag
+        });
+        wx.showToast({
+          title: '户号已保存',
+          icon: 'success',
+          duration: 1500,
+        });
+        this.onLoad()
+      } catch (err) {
+          console.log(err)
+        wx.showToast({
+          title: '操作失败',
+          icon: 'error',
+          duration: 1500,
+        });
+      }
+    }
+  
+    this.setData({
+      edit_dialogShow: false,
     });
   },
 

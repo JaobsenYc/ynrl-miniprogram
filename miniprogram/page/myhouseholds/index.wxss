@@ -37,3 +37,7 @@
   font-size: 66px; /* 这是示例值，你可以根据需要调整 */
   z-index: 100; /* 确保元素在其他元素的上方 */
 }
+
+.test .weui-slideview__btn {
+    background-color: #1AAD19;
+}

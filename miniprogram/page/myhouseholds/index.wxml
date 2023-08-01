@@ -1,6 +1,6 @@
 <view class="page" data-weui-theme="">
   <view class="page__hd">
-      <view class="page__title">左滑进行编辑</view>
+      <view class="page__title" style="display: flex; align-items: center; justify-content: center; color: red;">左滑进行编辑</view>
 
   </view>
   <view class="page__bd">
@@ -8,9 +8,9 @@
 
 
       <view class="weui-slidecells">
-        <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap">
+        <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" data-householdid="{{item.householdId}}">
           <view class="weui-slidecell">
-            {{item.householdId}} - {{item.tag}} - (地址: {{addresses[item.householdId]}})
+            {{item.householdId}} - {{item.tag}} - (地址: {{address[item.householdId]}})
           </view>
         </mp-slideview>
       </view>
@@ -18,6 +18,20 @@
   </view>
   <mp-dialog title="请选择或输入标签名称" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
     <input class="tag-input"  bindinput="idInputChange" placeholder="请输入户号" />
+    <view class="page-section-title">选择标签</view>
+    <radio-group class="group" bindchange="radioChange">
+      <block wx:for="{{radioItems}}" wx:key="index">
+        <label class="radio-label">
+          <radio value="{{item.value}}" checked="{{item.checked}}">{{item.name}}</radio>
+        </label>
+      </block>
+    </radio-group>
+    <input class="tag-input" wx:if="{{show_customTag}}" bindinput="taginputChange" placeholder="请输入自定义标签" />
+
+    
+  </mp-dialog>
+
+  <mp-dialog title="请选择或输入标签名称" show="{{edit_dialogShow}}" bindbuttontap="tapEditButton" buttons="{{buttons}}">
     <view class="page-section-title">选择标签</view>
     <radio-group class="group" bindchange="radioChange">
       <block wx:for="{{radioItems}}" wx:key="index">
