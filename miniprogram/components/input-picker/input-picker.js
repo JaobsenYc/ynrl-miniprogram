@@ -108,6 +108,9 @@ Component({
       }
 
       this.setData({
+        filteredCasArray: this.data.originalCasArray,
+        value: [0],
+        selected: '',
         show: true,
         showMask: true,
       });

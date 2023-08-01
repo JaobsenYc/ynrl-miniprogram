@@ -20,7 +20,7 @@
             <view class="weui-label">当前选择</view>
           </view>
           <view class="weui-cell__bd">
-            <picker bindchange="bindBuildingChange" value="{{indexBuilding}}" range="{{buildings}}" placeholder="请选择楼号">
+            <picker bindchange="bindBuildingChange" value="{{indexBuilding}}" range="{{buildings}}" disabled="{{isBuildingPickerDisabled}}" placeholder="请选择楼号">
               <view class="weui-input center-text">{{buildings[selected.building] || '请选择楼号'}}</view>
             </picker>
           </view>
@@ -33,7 +33,7 @@
             <view class="weui-label">当前选择</view>
           </view>
           <view class="weui-cell__bd">
-            <picker bindchange="bindUnitChange" value="{{indexUnit}}" range="{{units}}" placeholder="请选择单元">
+            <picker bindchange="bindUnitChange" value="{{indexUnit}}" range="{{units}}" disabled="{{isUnitPickerDisabled}}" placeholder="请选择单元">
               <view class="weui-input center-text">{{units[selected.unit] || '请选择单元'}}</view>
             </picker>
           </view>
@@ -46,7 +46,7 @@
             <view class="weui-label">当前选择</view>
           </view>
           <view class="weui-cell__bd">
-            <picker bindchange="bindFloorChange" value="{{indexFloor}}" range="{{floors}}" placeholder="请选择楼层">
+            <picker bindchange="bindFloorChange" value="{{indexFloor}}" range="{{floors}}" disabled="{{isFloorPickerDisabled}}" placeholder="请选择楼层">
               <view class="weui-input center-text">{{floors[selected.floor] || '请选择楼层'}}</view>
             </picker>
           </view>
@@ -59,7 +59,7 @@
             <view class="weui-label">当前选择</view>
           </view>
           <view class="weui-cell__bd">
-            <picker bindchange="bindRoomChange" value="{{indexRoom}}" range="{{rooms}}" placeholder="请选择房间号">
+            <picker bindchange="bindRoomChange" value="{{indexRoom}}" range="{{rooms}}" disabled="{{isRoomPickerDisabled}}" placeholder="请选择房间号">
               <view class="weui-input center-text">{{rooms[selected.room] || '请选择房间号'}}</view>
             </picker>
           </view>
@@ -68,30 +68,54 @@
 
 
       <!-- <mp-halfScreenDialog bindbuttontap="buttontap" show="{{dialog_show}}" maskClosable="{{false}}" title="测试标题B" subTitle="测试标题B的副标题" desc="辅助描述内容，可根据实际需要安排" tips="辅助提示内容，可根据实际需要安排" buttons="{{buttons}}"></mp-halfScreenDialog> -->
-      <mp-half-screen-dialog  title="个人信息" subTitle="{{users.address}}" show="{{dialog_show}}" maskClosable="{{false}}">
-    <view slot="title">个人信息</view>
+      <mp-half-screen-dialog title="个人信息" subTitle="{{users.address}}" show="{{dialog_show}}" maskClosable="{{false}}">
+        <view slot="title">个人信息</view>
 
-    <view  slot="desc">
-        <view class="center-text "style="font-size: 20px; color: #f23321;">{{users.address}}</view>
-        <view class="center-text "style="font-size: 18px; color: #1f6764; font-weight: bold;">
-          户号: {{users.userId}}
+        <view slot="desc">
+          <view class="center-text " style="font-size: 20px; color: #f23321;">{{users.address}}</view>
+          <view class="center-text " style="font-size: 18px; color: #1f6764; font-weight: bold;">
+            户号: {{users.userId}}
+          </view>
+          <text class="center-text">姓名:{{users.contact}}\n用户类型:{{users.UserType}}\n缴费金额:{{users.TotalArrears}}元\n</text>
+
         </view>
-        <text class="center-text">姓名:{{users.contact}}\n用户类型:{{users.UserType}}\n缴费金额:{{users.TotalArrears}}元\n</text>
-        
-    </view>
-    <view slot="footer">
-      <button type="default" class="weui-btn" open-type="contact" >信息有误联系客服</button>
-      <button type="primary" class="weui-btn white-space: nowrap" bindtap="copyToClipboard">复制户号到剪切板</button>
-    </view>
-</mp-half-screen-dialog>
+        <view slot="footer">
+
+          <view class="weui-cell__bd">
+            <button type="default" class="weui-btn" bindtap="showSaveHousehold">保存户号</button>
+            <button type="primary" class="weui-btn white-space: nowrap" bindtap="copyToClipboard">复制户号</button>
+          </view>
+          <view class="weui-cell__bd">
+            <button type="warn" class="weui-btn" open-type="contact">信息有误联系客服</button>
+            
+            <button type="primary" class="weui-btn white-space: nowrap" bindtap="goTopay">复制户号跳转缴费</button>
+          </view>
+        </view>
+      </mp-half-screen-dialog>
 
       <view class="btn-area" id="buttonContainer">
 
-        <button type="primary" bind:tap="open">查询户号</button>
-        <button type="default" bind:tap="openDialog">页面主操作 Loading</button>
-        <button type="primary" disabled="true">页面主操作 Disabled</button>
+        <button type="primary" style="height: 300%; line-height: 300%; font-size: 20px;" bind:tap="open">查询 户号</button>
+
       </view>
     </view>
   </view>
-  <template is="foot" />
+
+  <mp-dialog title="请选择或输入标签名称" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+  
+    <view class="page-section-title">选择标签</view>
+    <radio-group class="group" bindchange="radioChange">
+      <block wx:for="{{radioItems}}" wx:key="index">
+        <label class="radio-label">
+          <radio value="{{item.value}}" checked="{{item.checked}}">{{item.name}}</radio>
+        </label>
+      </block>
+    </radio-group>
+    <input class="tag-input" wx:if="{{show_customTag}}" bindinput="inputChange" placeholder="请输入自定义标签" />
+
+
+  </mp-dialog>
+
+
+
 </view>

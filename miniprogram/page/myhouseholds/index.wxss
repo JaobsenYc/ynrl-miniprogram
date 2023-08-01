@@ -1,0 +1,39 @@
+/* page/myhouseholds/index.wxss */
+
+.weui-slidecells {
+  margin:8px;
+}
+
+.weui-slidecell {
+  background-color: var(--weui-BG-2);
+  border-radius: 8px;
+  padding: 26px;
+  line-height: 1.4;
+  font-size: 17px;
+}
+
+.tag-input {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.add-button {
+  position: fixed;
+  width: 60px;  /* 这是示例值，你可以根据需要调整 */
+  height: 60px;  /* 这是示例值，你可以根据需要调整 */
+  line-height: 50px; /* 使文本垂直居中 */
+  text-align: center; /* 使文本水平居中 */
+  bottom: 5%; /* 这是示例值，你可以根据需要调整 */
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%; /* 这将使元素变为圆形 */
+  background-color: #1AAD19;
+  color: white;
+  font-size: 66px; /* 这是示例值，你可以根据需要调整 */
+  z-index: 100; /* 确保元素在其他元素的上方 */
+}

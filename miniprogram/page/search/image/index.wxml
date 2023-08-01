@@ -1,0 +1,25 @@
+<view class="container page">
+  <view class="page-body">
+    <view class="page-section page-section-gap">
+      <view class="page-section-title">选择供暖费</view>
+      <view class="page-section-ctn">
+        <image class="image" src="cloud://prod-2ggzau6r9a169f02.7072-prod-2ggzau6r9a169f02-1319675918/image/step1.JPEG" mode="widthFix"/>
+      </view>
+    </view>
+    <view class="page-section page-section-gap">
+      <view class="page-section-title">选择:临漳县邺能热力</view>
+      <view class="page-section-ctn">
+        <image class="image" src="cloud://prod-2ggzau6r9a169f02.7072-prod-2ggzau6r9a169f02-1319675918/image/step2.JPEG" mode="widthFix"/>
+      </view>
+    </view>
+    <view class="page-section page-section-gap">
+      <view class="page-section-title">填写户号</view>
+      <view class="page-section-ctn">
+        <image class="image" src="cloud://prod-2ggzau6r9a169f02.7072-prod-2ggzau6r9a169f02-1319675918/image/step3.JPEG" mode="widthFix"/>
+      </view>
+    </view>
+  </view>
+  <view class="page-foot">
+    <button type="primary" class="weui-btn white-space: nowrap" bindtap="goTopay">跳转缴费</button>
+  </view>
+</view>

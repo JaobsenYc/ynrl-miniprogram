@@ -47,12 +47,12 @@ App({
       )
       const result = await wx.cloud.callContainer({
         config: {
-          env: 'prod-3g90nuqn137592b4', // 微信云托管的环境ID
+          env: 'prod-2ggzau6r9a169f02', // 微信云托管的环境ID
         },
         path: '/', // 填入业务自定义路径和参数，根目录，就是 / 
         method: 'GET', // 按照自己的业务开发，选择对应的方法
         header: {
-          'X-WX-SERVICE': 'xxx', // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
+          'X-WX-SERVICE': 'koa-l2vl', // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
         }
         // dataType:'text', // 默认不填是以JSON形式解析返回结果，若不想让SDK自己解析，可以填text
       })

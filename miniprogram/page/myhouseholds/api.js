@@ -1,5 +1,4 @@
-// query/api.js
-
+// myhouseholds/api.js
 // Make sure to update the cloud environment ID based on your actual setup
 const envId = 'prod-2ggzau6r9a169f02';
 
@@ -21,6 +20,7 @@ function callContainerApi(params, retries = 5) {
           } else {
             reject(new Error(`请求失败，状态码：${res.statusCode}`));
           }
+          
         },
         fail(err) {
           if (retries > 0) {
@@ -46,50 +46,12 @@ function callContainerApi(params, retries = 5) {
 }
 
 
-function getCommunities() {
+function getHouseholds() {
   return callContainerApi({
-    path: '/api/communities',
+    path: '/api/users/households',
     method: 'GET',
   });
 }
-
-function getBuildings(communityId) {
-  return callContainerApi({
-    path: `/api/communities/${communityId}/buildings`,
-    method: 'GET',
-  });
-}
-
-
-
-function getUnits(communityId, buildingId) {
-  return callContainerApi({
-    path: `/api/communities/${encodeURIComponent(communityId)}/buildings/${encodeURIComponent(buildingId)}/units`,
-    method: 'GET',
-  });
-}
-
-function getFloors(communityId, buildingId, unitId) {
-  return callContainerApi({
-    path: `/api/communities/${encodeURIComponent(communityId)}/buildings/${encodeURIComponent(buildingId)}/units/${encodeURIComponent(unitId)}/floors`,
-    method: 'GET',
-  });
-}
-
-function getRooms(communityId, buildingId, unitId, floorId) {
-  return callContainerApi({
-    path: `/api/communities/${encodeURIComponent(communityId)}/buildings/${encodeURIComponent(buildingId)}/units/${encodeURIComponent(unitId)}/floors/${encodeURIComponent(floorId)}/rooms`,
-    method: 'GET',
-  });
-}
-
-function getUsers(communityId, buildingId, unitId, floorId, roomId) {
-  return callContainerApi({
-    path: `/api/communities/${encodeURIComponent(communityId)}/buildings/${encodeURIComponent(buildingId)}/units/${encodeURIComponent(unitId)}/floors/${encodeURIComponent(floorId)}/rooms/${encodeURIComponent(roomId)}/users`,
-    method: 'GET',
-  });
-}
-
 
 function getUserDetails(userId) {
   return callContainerApi({
@@ -108,12 +70,7 @@ function saveHouseholds(data) {
 
 
 module.exports = {
-  getCommunities,
-  getBuildings,
-  getUnits,
-  getFloors,
-  getRooms,
-  getUsers,
+  getHouseholds,
   getUserDetails,
   saveHouseholds
 };

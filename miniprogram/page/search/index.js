@@ -3,8 +3,7 @@ const api = require('./api');
 Page({
   data: {
     theme: 'light',
-    users: {
-    },
+    users: {},
     dialog_show: false,
     show: false,
     selected: {
@@ -20,6 +19,37 @@ Page({
     floors: [],
     rooms: [],
     filteredCommunities: [],
+    isInformationComplete: false,
+    radioItems: [{
+        name: '我家',
+        value: '我家',
+        checked: 'true'
+      },
+      {
+        name: '父母',
+        value: '父母'
+      },
+      {
+        name: '房东',
+        value: '房东'
+      },
+      {
+        name: '其他',
+        value: '其他'
+      },
+    ],
+    householdTag: '我家',
+    show_customTag: false,
+    buttons: [{
+      text: '取消'
+    }, {
+      text: '确定'
+    }],
+    dialogShow: false,
+    isBuildingPickerDisabled: true,
+    isUnitPickerDisabled: true,
+    isFloorPickerDisabled: true,
+    isRoomPickerDisabled: true,
   },
 
   async onLoad() {
@@ -44,9 +74,10 @@ Page({
 
   async selectCommunity(e) {
     const selectedCommunity = e.detail;
-    this.resetSelection();
+    this.resetSelection('building', 'unit', 'floor', 'room');
     this.setData({
       'selected.community': selectedCommunity,
+      'isInformationComplete': false
     });
     await this.loadData('buildings', this.data.selected.community.id);
   },
@@ -82,8 +113,13 @@ Page({
     const indexRoom = e.detail.value;
     this.setData({
       'selected.room': indexRoom,
+      'isInformationComplete': true
     });
     this.onQueryUsers();
+  },
+  sortData(data) {
+
+    return data.sort((a, b) => a - b);
   },
 
   async loadData(type, ...args) {
@@ -92,26 +128,34 @@ Page({
       switch (type) {
         case 'buildings':
           data = await api.getBuildings(...args);
+          data = this.sortData(data);
           this.setData({
-            buildings: data
+            buildings: data,
+            isBuildingPickerDisabled: false,
           });
           break;
         case 'units':
           data = await api.getUnits(...args);
+          data = this.sortData(data);
           this.setData({
-            units: data
+            units: data,
+            isUnitPickerDisabled: false,
           });
           break;
         case 'floors':
           data = await api.getFloors(...args);
+          data = this.sortData(data);
           this.setData({
-            floors: data
+            floors: data,
+            isFloorPickerDisabled: false,
           });
           break;
         case 'rooms':
           data = await api.getRooms(...args);
+          data = this.sortData(data);
           this.setData({
-            rooms: data
+            rooms: data,
+            isRoomPickerDisabled: false,
           });
           break;
 
@@ -203,22 +247,33 @@ Page({
     }
   },
   open() {
-    this.setData({
-      dialog_show: true
-    })
+
+    if (this.data.isInformationComplete) {
+      this.setData({
+        dialog_show: true
+      })
+
+    } else {
+      wx.showToast({
+        title: '请选择完整信息',
+        icon: 'error',
+        duration: 2000
+      });
+    }
+
     console.log(this.data.users.address);
   },
   copyToClipboard(e) {
     const userId = this.data.users.userId;
-  
-    const showFailToast = function() {
+
+    const showFailToast = function () {
       wx.showToast({
         title: '复制失败',
-        icon: 'none',
+        icon: 'error',
         duration: 1500,
       });
     };
-  
+
     wx.setClipboardData({
       data: userId,
       success(res) {
@@ -237,6 +292,12 @@ Page({
     });
   },
 
+  showSaveHousehold(e) {
+    this.setData({
+      dialogShow: true,
+    });
+
+  },
   hidePartOfName(realname) {
     if (!realname) return "";
     const length = realname.length;
@@ -254,7 +315,64 @@ Page({
     }
   },
 
+  radioChange: function (e) {
+    let radioItems = this.data.radioItems;
+    let checkedValue = e.detail.value;
+    let show_customTag = this.data.show_customTag;
+    for (let i = 0, len = radioItems.length; i < len; ++i) {
+      radioItems[i].checked = radioItems[i].value == checkedValue;
+      if (radioItems[i].checked && radioItems[i].value === "其他") {
+        show_customTag = true; // 如果选项为其他，则显示输入框
+      } else if (radioItems[i].checked) {
+        show_customTag = false; // 如果选项不是其他，则隐藏输入框
+      }
+    }
+    this.setData({
+      radioItems: radioItems,
+      householdTag: checkedValue,
+      show_customTag: show_customTag
+    });
 
+  },
+
+  inputChange(e) {
+    this.setData({
+      householdTag: e.detail.value,
+    });
+  },
+  async tapDialogButton(e) {
+    if (e.detail.index == 1) {
+      await api.saveHouseholds({
+        householdId: this.data.users.userId,
+        tag: this.data.householdTag
+      }).then(res => {
+        wx.showToast({
+          title: '户号已保存',
+          icon: 'success',
+          duration: 1500,
+        });
+      }).catch(err => {
+        wx.showToast({
+          title: '户号保存失败',
+          icon: 'error',
+          duration: 1500,
+        });
+      });
+    }
+    console.log(this.data.householdTag)
+    this.setData({
+      dialogShow: false,
+    })
+  },
+
+  goTopay(e) {
+    this.copyToClipboard()
+    wx.navigateTo({
+      url: 'image/index'  // 注意，路径前面要加上 '../' 来表示是相对路径
+    })
+    
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
